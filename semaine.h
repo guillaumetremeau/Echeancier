@@ -2,7 +2,7 @@
 #ifndef __SEMAINE_H_GUILLAUME__
 
 typedef struct semaines{
-	int[6] semaine;
+	char[6] semaine;
 	struct actions * actions;
 	struct semaine * semaineSuivante;
 }semaines_t;
