@@ -10,4 +10,5 @@ typedef struct semaines{
 //Fonction qui créer une semaine à partir d'une chaine de caractère récupérer
 //d'un fichier
 void createSemaine(semaines_t, char *);
+semaines_t recherche(semaines_t semaines, char *);
 #endif
