@@ -4,7 +4,7 @@
 typedef struct semaines{
 	int[6] semaine;
 	struct actions * actions;
-	struct semaine * semaine;
+	struct semaine * semaineSuivante;
 }semaines_t;
 
 //Fonction qui créer une semaine à partir d'une chaine de caractère récupérer
