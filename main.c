@@ -1,5 +1,5 @@
-#define "action.h"
-#define "semaine.h"
+#include "action.h"
+#include "semaine.h"
 
 
 int main(){
