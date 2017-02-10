@@ -2,7 +2,7 @@
 #include "semaine.h"
 #include "main.c"
 
-#define TAILLE_LIrecSTE_AGENDA 100
+#define TAILLE_LISTE_AGENDA 100
 
 void createAction(actions_t * liste_actions, char * chaine_actions){
   int i;
@@ -44,14 +44,13 @@ void alloueAction( actions_t * ptrAction, int [] jour, char [] nom){
 }
 
 
-//à terminer, faire attention aux pointeurs, refaire un schéma
 //fonction de recherche 
 //renvoit l'adresse de l'élément précédent où il faut insérer la nouvelle valeur
 actions_t Recherche ( actions_t * tete_liste, int [] val){
   actions_t ** cour = &tete_liste;
   
-  while ( *cour != NULL ) && ( cour->suiv->jour_heure != val) && (cour->suiv->jour_heure < val){ //ou strcmp + include "string.h"
-    cour -> suiv;
+  while ( *cour != NULL ) && ( *cour->suiv->jour_heure != val) && ( *cour->suiv->jour_heure < val){ //ou strcmp + include "string.h"
+    *cour -> suiv;
   }
   return cour;
 }
