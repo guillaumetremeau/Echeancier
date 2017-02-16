@@ -1,8 +1,10 @@
+#define __ACTIONS_C_FARAH__
+#ifndef __ACTIONS_C_FARAH__
+
 #include "actions.h"
 #include "semaine.h"
 #include "main.c"
-
-#define TAILLE_LISTE_AGENDA 100
+#include "string.h"
 
 
 
@@ -26,9 +28,9 @@ void createAction(actions_t * liste_actions, char * chaine_actions)
   actions_t 	* 	ptrAction;
   
   for (i=0; i<3; i++)
-  {					//on divise la case chaine_actions avec le jour et l'heure d'un côté 
+  {					/*on divise la case chaine_actions avec le jour et l'heure d'un côté */
     if (i<3)
-    {						//et le nom de l'action de l'autre
+    {						/*et le nom de l'action de l'autre*/
       jour_heure[i] = chaine_actions[i];
     }
     else
@@ -37,13 +39,13 @@ void createAction(actions_t * liste_actions, char * chaine_actions)
     }
   }
   
-  ptrAction = Recherche( liste_actions, jour_heure);	//ptrAction représente la case précédente avant laquelle 
-							//il faut insérer la nouvelle action
+  ptrAction = Recherche( liste_actions, jour_heure);	/*ptrAction représente la case précédente avant laquelle */
+							/*il faut insérer la nouvelle action*/
   if (* ptrAction != NULL)
   {
     if (jour_heure != prec->suiv->jour_heure)
     {
-      alloueAction( ptrAction, jour_heure, nom_action);	//on alloue un nouvel élément
+      alloueAction( ptrAction, jour_heure, nom_action);	/*on alloue un nouvel élément*/
     }
     else
     {
@@ -87,8 +89,7 @@ void alloueAction( actions_t * ptrAction, int [] jour, char [] nom)
 
 
 
-//fonction de recherche 
-//renvoit l'adresse de l'élément précédent où il faut insérer la nouvelle valeur
+
 /*------------------------------------------------------------------------------*/
 /*Recherche		Rechercher une valeur dans une liste chaînée		*/
 /*										*/
@@ -99,14 +100,14 @@ void alloueAction( actions_t * ptrAction, int [] jour, char [] nom)
 /*			où il faut insérer la nouvelle valeur			*/
 /*------------------------------------------------------------------------------*/
 
-actions_t Recherche ( actions_t * tete_liste, int [] val)
+actions_t * Recherche ( actions_t * tete_liste, int [] val)
 {
   actions_t ** cour = &tete_liste;
   
-  while ( *cour != NULL ) && ( *cour->suiv->jour_heure != val) && ( *cour->suiv->jour_heure < val)
-  { //ou strcmp + include "string.h"
-    *cour -> suiv;
-  }
+  while ( *cour != NULL ) && ( (*cour)->suiv->jour_heure != val) && ( )*cour)->suiv->jour_heure < val)
+  { /*ou strcmp + include "string.h"*/
+    *cour = (*cour) -> suiv;
+  }, sinon
   return cour;
 }
 
@@ -114,27 +115,76 @@ actions_t Recherche ( actions_t * tete_liste, int [] val)
 
 
 
-
 /*------------------------------------------------------------------------------*/
-/*lire_fichier		Lire fichier texte représentant notre liste chainée	*/
+/*Sauvegarde		fonction qui sauvegarde la SDD sous la forme d'un fichier*/
+/*										*/
+/*En entrée:		fichier_sauvegarde 	Fichier créer dans semaine.c	*/
+/*			liste_actions		Structure de type actions_t	*/
+/*			semaine			Chaine de caractères		*/
+/*										*/
+/*En sortie:		Renvoit un fichier contenant une sauvegarde de la SDD	*/
 /*------------------------------------------------------------------------------*/
 
-int lire_fichier()
+void sauvegarde ( FILE * fichier_sauvegarde, actions_t * liste_actions, char * semaine)
 {
-  File* fichier = NULL;
+  actions_t * cour = liste_actions;
   
-  char chaine[19] = "";
-  fichier = fopen("liste_agenda", "r");
-  
-  if (fichier != NULL)
+  while ( cour != NULL)
   {
-    fgets(chaine, TAILLE_LISTE_AGENDA, fichier)
-    createSemaine(chaine);
-  }
-  else
-  {
-    printf("Impossible d'ouvrir le fichier 'liste_agenda'");
+    action = concat(semaine, cour->jour_heure, cour->nom_action);
+    fputs (action, fichier_sauvegarde);
+    cour = cour->suiv;
   }
   
-  return 0;
 }
+
+
+
+
+
+/*------------------------------------------------------------------------------*/
+/*Sauvegarde		Fonction qui cherche si une action est présente dans 	*/
+/*			l'agenda						*/
+/*										*/
+/*En entrée:		liste_actions		Structure de type actions_t	*/
+/*			rechAction		Chaine de caractères		*/
+/*										*/
+/*En sortie:		Renvoit, si l'action est présente, les jours qui 	*/
+/*		contiennent une ou plusieurs fois cette action sous forme de 	*/ 
+/*		tableau de caractères						*/
+/*------------------------------------------------------------------------------*/
+
+char * createListefromActions ( actions_t * liste_actions, char *rechAction)
+{
+  char 	* 	liste_jour;
+  liste_jour = "";
+  int i = 0;
+  actions_t * cour = liste_actions;
+  
+  while ( cour != NULL)
+  {
+    if (cour->nom_action == rechAction)
+    {
+      if ( i = 0 )
+      {
+	liste_jour[i] = cour->jour_heure[0];
+	i = i+1;
+      }
+      else
+      {
+	if ( liste_jour[i-1] != cour->jour_heure[0])
+	  {
+	    liste_jour[i] = cour->jour_heure[0];
+	    i = i+1;
+	  }
+      }
+
+    }
+    cour = cour->suiv;
+  }
+  return liste_jour;
+}
+
+
+
+#endif
