@@ -5,10 +5,10 @@ echeancier: semaine.o actions.o main.o
 	gcc -o echeancier semaine.o actions.o main.o
 
 semaine.o: semaine.c
-	gcc -o semaine.o -c semaine.c -W -Wall -ansi -pedantic
+	gcc -o semaine.o -c semaine.c -Wall -Wextra -ansi -pedantic
   
 actions.o: actions.c
-	gcc -o actions.o -c actions.c -W -Wall -ansi -pedantic
+	gcc -o actions.o -c actions.c -Wall -Wextra -ansi -pedantic
 
 main.o: main.c semaine.h action.h
 	gcc -o main.o -c main.c -W -Wall -ansi -pedantic
