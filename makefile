@@ -10,7 +10,7 @@ semaine.o: semaine.c
 actions.o: actions.c
 	gcc -o actions.o -c actions.c -Wall -Wextra -ansi -pedantic
 
-main.o: main.c semaine.h action.h
+main.o: main.c semaine.h actions.h
 	gcc -o main.o -c main.c -W -Wall -ansi -pedantic
 
 clean:
