@@ -15,13 +15,13 @@ void createSemaine(semaines_t * semaines, char * chaine){
 	char actions[13];
 	int cmp=0;
 	semaines_t * ptrSemaine;
-	
+
 	for(cmp=0;cmp<19;cmp++){/*Separation de la chaine de caractère*/
 		if(cmp < 6){
 			semaine[cmp]=chaine[cmp];
 		}else actions[cmp-6] = chaine[cmp];
 	}
-	
+
 	ptrSemaine = recherche(semaines,semaine);
 	if ( ptrSemaine != NULL ){
 		if (strcmp(ptrSemaine->semaine, semaine) != 0){
@@ -30,7 +30,7 @@ void createSemaine(semaines_t * semaines, char * chaine){
 	}else{
 			alloueSemaine(ptrSemaine, semaine);
 	}
-	
+
 	createAction(ptrSemaine->actions, actions);
 }
 
@@ -53,6 +53,8 @@ semaines_t * recherche(semaines_t * semaines, char * semaine){
 	return *ptrCour;
 }
 
+/*Fonction qui lit un fichier donné en paramètre et créer les semaines
+correspondantes*/
 semaines_t * lireFichier(char * nomFichier){
 	semaines_t * listeSemaine = NULL;
 	FILE* file = NULL;
@@ -69,8 +71,17 @@ semaines_t * lireFichier(char * nomFichier){
 	return listeSemaine;
 }
 
-void sauvegarde(semaines_t * listeSemaine, char * nomFichier){
-
+void sauvegardeSemaine(semaines_t * listeSemaine, char * nomFichier){
+	FILE* file = NULL;
+	semaines_t * ptrCour = listeSemaine;
+	file = fopen(nomfichier, "r");
+	if (file != NULL){
+		while (ptrCour != NULL){
+			sauvegarde(file, ptrCour->actions, ptrCour->semaine);
+			ptrCour = ptrCour->semaineSuivante;
+		}
+		fclose(file);
+	}
 }
 
 #endif
