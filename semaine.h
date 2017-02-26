@@ -29,6 +29,6 @@ char * createListeJourFromActionsSemaine(semaines_t *, char *);
 
 /*Supprime une action de la sdd à partir de l'année, la semaine, le jour
 ainsi que l'heure*/
-void supprimeAction(semaines_t *, char *);
+void supprimeActionInSemaines(semaines_t *, char *);
 
 #endif

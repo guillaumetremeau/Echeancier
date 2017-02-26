@@ -96,4 +96,25 @@ char * createListeJourFromActionsSemaine(semaines_t * listeSemaine, char * actio
 	return listeDesJours;
 }
 
+/*Supprime une action de la sdd à partir de l'année, la semaine, le jour
+ainsi que l'heure*/
+void supprimeActionInSemaines(semaines_t * listeSemaine, char * chaine){
+	char semaine[6];
+	char jourHeure[13];
+	int cmp=0;
+	semaines_t * ptrSemaine;
+
+	for(cmp=0;cmp<19;cmp++){/*Separation de la chaine de caractère*/
+		if(cmp < 6){
+			semaine[cmp]=chaine[cmp];
+		}else jourHeure[cmp-6] = chaine[cmp];
+	}
+
+	semaines_t * ptrSemaine = recherche(listeSemaine, semaine);
+	while(ptrSemaine != NULL){
+		supprimeAction(ptrSemaine->actions, jourHeure);
+		ptrSemaine = recherche(ptrSemaine, semaine);
+	}
+}
+
 #endif
