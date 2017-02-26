@@ -22,11 +22,11 @@ semaines_t * lireFichier(char *);
 semaines_t * recherche(semaines_t *, char *);
 
 /*Fonction qui enregistre la sdd dans un fichier*/
-void sauvegarde(semaines_t *, char *);
+void sauvegardeSemaine(semaines_t *, char *);
 
 /*Fonction qui créer la liste des jours contenant une action donnée*/
 char * createListeJourFromAction(semaines_t *, char *);
-		
+
 /*Supprime une action de la sdd à partir de l'année, la semaine, le jour
 ainsi que l'heure*/
 void supprimeAction(semaines_t *, char *);
