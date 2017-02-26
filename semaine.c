@@ -84,4 +84,16 @@ void sauvegardeSemaine(semaines_t * listeSemaine, char * nomFichier){
 	}
 }
 
+/*Fonction qui créer la liste des jours contenant une action donnée*/
+char * createListeJourFromActionsSemaine(semaines_t * listeSemaine, char * action){
+	semaines_t * ptrCour = listeSemaine;
+	char * listeDesJours = ""
+	while(ptrCour != NULL){
+		strcat(listeDesJours, createListefromActions(ptrCour->actions, action));
+		ptrCour = ptrCour->semaineSuivante;
+	}
+
+	return listeDesJours;
+}
+
 #endif
