@@ -1,5 +1,11 @@
-#define __SEMAINE_H_GUILLAUME__
-#ifndef __SEMAINE_H_GUILLAUME__
+#ifndef __SEMAINE_H_GUILLAUME_FARAH__
+#define __SEMAINE_H_GUILLAUME_FARAH__
+
+#include "semaine.h"
+#include "actions.h"
+#include <stdlib.h>
+#include <string.h>
+
 
 typedef struct semaines {
 	char * semaine;
@@ -19,7 +25,7 @@ void alloueSemaine(semaines_t *, char[]);
 semaines_t * lireFichier(char *);
 
 /*Fonction qui recherche  un élément dans la sdd*/
-semaines_t * recherche(semaines_t *, char *);
+semaines_t ** recherche(semaines_t *, char *);
 
 /*Fonction qui enregistre la sdd dans un fichier*/
 void sauvegardeSemaine(semaines_t *, char *);

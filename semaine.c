@@ -1,11 +1,3 @@
-#define __SEMAINE_C_GUILLAUME__
-#ifndef __SEMAINE_C_GUILLAUME__
-
-#include "semaine.h"
-#include "actions.h"
-#include <stdlib.h>
-#include <string.h>
-
 /*Procédure qui parcours la liste des semaines et ajoute une semaine (si
 nécessaire) dans l'ordre en fonction de la chaine de caractère complète (ex:
 201720114Medecin) puis ajoute l'action correspondant avec la fonction
@@ -14,7 +6,7 @@ void createSemaine(semaines_t * semaines, char * chaine){
 	char semaine[6];
 	char actions[13];
 	int cmp=0;
-	semaines_t * ptrSemaine;
+	semaines_t ** ptrSemaine;
 
 	for(cmp=0;cmp<19;cmp++){/*Separation de la chaine de caractère*/
 		if(cmp < 6){
@@ -24,14 +16,14 @@ void createSemaine(semaines_t * semaines, char * chaine){
 
 	ptrSemaine = recherche(semaines,semaine);
 	if ( ptrSemaine != NULL ){
-		if (strcmp(ptrSemaine->semaine, semaine) != 0){
-			alloueSemaine(ptrSemaine, semaine);
+		if (strcmp((*ptrSemaine)->semaine, semaine) != 0){
+			alloueSemaine(*ptrSemaine, semaine);
 		}
 	}else{
 			alloueSemaine(ptrSemaine, semaine);
 	}
 
-	createAction(ptrSemaine->actions, actions);
+	createAction((*ptrSemaine)->actions, actions);
 }
 
 /*Fonction qui alloue un élément semaine sur le poiteur passé en paramètre et
@@ -45,12 +37,12 @@ void alloueSemaine(semaines_t * ptrSemaine, char * nomSemaine){
 
 /*Renvoie le pointeur sur  soit l'élément correspondant à la bonne semaine
 soit l'emplacement ou inserer un nouvel élément*/
-semaines_t * recherche(semaines_t * semaines, char * semaine){
+semaines_t ** recherche(semaines_t * semaines, char * semaine){
 	semaines_t ** ptrCour = &semaines;
 	while ((*ptrCour != NULL) && (strcmp((*ptrCour)->semaine,semaine)<0)){
 		ptrCour = (*ptrCour)->semaineSuivante;
 	}
-	return *ptrCour;
+	return ptrCour;
 }
 
 /*Fonction qui lit un fichier donné en paramètre et créer les semaines
@@ -110,11 +102,11 @@ void supprimeActionInSemaines(semaines_t * listeSemaine, char * chaine){
 		}else jourHeure[cmp-6] = chaine[cmp];
 	}
 
-	semaines_t * ptrSemaine = recherche(listeSemaine, semaine);
-	while(ptrSemaine != NULL){
-		supprimeAction(ptrSemaine->actions, jourHeure);
-		ptrSemaine = recherche(ptrSemaine, semaine);
+	semaines_t ** ptrSemaine = recherche(listeSemaine, semaine);
+	supprimeAction((*ptrSemaine->actions), jourHeure);
+	if ((*ptrSemaine->actions) == NULL){
+		temp = (*ptrSemaine)->semaineSuivante;
+		free(*ptrSemaine);
+		*ptrSemaine = temp;
 	}
 }
-
-#endif
