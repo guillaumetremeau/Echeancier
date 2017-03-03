@@ -192,7 +192,7 @@ char * CreateListeFromActions ( actions_t * liste_actions, char *rechAction)
 
 
 
-/*a completer*/
+
 
 /*------------------------------------------------------------------------------*/
 /*SupprimeAction	Fonction qui supprime une action en connaissant  	*/
@@ -201,9 +201,8 @@ char * CreateListeFromActions ( actions_t * liste_actions, char *rechAction)
 /*En entrée:		liste_actions	Structure de type actions_t		*/
 /*			val		Entier représentant le jour et l'heure	*/
 /*										*/
-/*En sortie:		 	*/
-/*		 	*/ 
-/*								*/
+/*En sortie:		la fonction retourne une nouvelle liste chainée ne 	*/
+/*		contenant plus l'action à supprimer si elle existe		*/
 /*------------------------------------------------------------------------------*/
 
 void SupprimeAction (actions_t * liste_actions, int [] val)
@@ -232,7 +231,7 @@ void SupprimeAction (actions_t * liste_actions, int [] val)
 
 
 
-/*a modifier*/
+
 
 /*------------------------------------------------------------------------------*/
 /*LibererAction		Supprimer un élément en libérant de l'espace mémoire	*/
@@ -243,17 +242,17 @@ void SupprimeAction (actions_t * liste_actions, int [] val)
 /*					nom de l'action				*/
 /*										*/
 /*En sortie:		la fonction retourne une nouvelle liste chainée contenant*/
-/*		une action en moins			*/
+/*		une action en moins						*/
 /*------------------------------------------------------------------------------*/
 
 void LibererAction( actions_t * ptrAction, int [] jour, char [] nom)
 {
-  actions_t 	*	nouv;
+  actions_t 	* temp;
   
-  nouv = (actions_t) * malloc(sizeof(actions_t));
-  nouv.suiv = * ptrAction;
-  ptrAction = nouv;
+  temp = ptrAction->suiv;
+  ptrAction->suiv = temp->suiv;
+  free(temp);
 }
-/*a modifier*/
+
 
 #endif

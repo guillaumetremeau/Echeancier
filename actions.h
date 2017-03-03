@@ -4,8 +4,8 @@
 /*			déclaration des fonctions utilisées			*/
 /*------------------------------------------------------------------------------*/
 
-#ifndef __ACTIONS_H_FARAH__
-#define __ACTIONS_H_FARAH__
+#ifndef __ACTIONS_H_GUILLAUME_FARAH__
+#define __ACTIONS_H_GUILLAUME_FARAH__
 
 typedef struct actions{
    char[3] jour_heure;
@@ -14,7 +14,7 @@ typedef struct actions{
 } actions_t;
 
 
-/*déclaration des fonctions utilisées*/
+
 
 
 /*------------------------------------------------------------------------------*/
@@ -80,16 +80,32 @@ void Sauvegarde ( FILE *, actions_t *, char *);
 
 char * CreateListeFromActions ( actions_t *, char *);
 
-/*supprimer une action en fonction de different parametre*/
-void SupprimeAction(actions_t *, int []);
 
 
 
-/*a completer */
-/*-------------------*/
-/*void LibererAction*/
-/*-------------------*/
-/*a completer */
+
+/*------------------------------------------------------------------------------*/
+/*SupprimeAction	Fonction qui supprime une action en connaissant  	*/
+/*			la date et l'heure					*/
+/*										*/
+/*En sortie:		la fonction retourne une nouvelle liste chainée ne 	*/
+/*		contenant plus l'action à supprimer si elle existe		*/
+/*------------------------------------------------------------------------------*/
+void SupprimeAction ( actions_t *, int []);
+
+
+
+
+
+/*------------------------------------------------------------------------------*/
+/*LibererAction		Supprimer un élément en libérant de l'espace mémoire	*/
+/*										*/
+/*En sortie:		la fonction retourne une nouvelle liste chainée contenant*/
+/*		une action en moins						*/
+/*------------------------------------------------------------------------------*/
+
+void LibererAction ( actions_t *, int [], char []);
+
 
 #endif
 
