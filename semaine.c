@@ -1,9 +1,19 @@
+/* ######################################################################
+ *							semaine.c
+ *
+ *
+ *	Fichier contenant les fonctions (le code) relatives a la gestion de la
+ *	liste des semaines
+ *
+ * ######################################################################*/
+
+
 #include "semaine.h"
 
 /*----------------------------------------------------------------------------
  *						createSemaine
  *
- * 		Procédure qui parcours la liste des semaines et ajoute une semaine (si 
+ * 		Procédure qui parcours la liste des semaines et ajoute une semaine (si
  * nécessaire) dans l'ordre en fonction de la chaine de caractère complète (ex:
  * 201720114Medecin) puis ajoute l'action correspondant avec la fonction
  * createAction()
@@ -13,12 +23,12 @@
  * 		chaine : chaine de caractère correspondant aux informations d'une action
  * ---------------------------------------------------------------------------*/
 void createSemaine(semaines_t * semaines, char * chaine){
-	char						semaine[6];
-	char						actions[13];
-	int							cmp=0;
-	semaines_t			** ptrSemaine;
+	char						semaine[6];				/* Chaine contenant la partie de la semaine*/
+	char						actions[13];			/* Chaine contenant la partie de l'action*/
+	int							cmp=0;						/* Compteur parcourant 'chaine' */
+	semaines_t			** ptrSemaine;		/* Contient le résultat d'une recherche dans semaines*/
 
-	for(cmp=0;cmp<19;cmp++){/*Separation de la chaine de caractère*/
+	for(cmp=0;cmp<19;cmp++){									/*Separation de la chaine de caractère*/
 		if(cmp < 6){
 			semaine[cmp]=chaine[cmp];
 		}else actions[cmp-6] = chaine[cmp];
@@ -36,8 +46,6 @@ void createSemaine(semaines_t * semaines, char * chaine){
 	CreateAction((*ptrSemaine)->actions, actions);
 }
 
-
-
 /*---------------------------------------------------------------------------
  * 					alloueSemaine
  *
@@ -50,6 +58,7 @@ void createSemaine(semaines_t * semaines, char * chaine){
  * --------------------------------------------------------------------------*/
 void alloueSemaine(semaines_t * ptrSemaine, char * nomSemaine){
 	semaines_t		* nouvSemaine = (semaines_t *) malloc(sizeof(semaines_t));
+	/* contient le nouvel élément alloué */
 
 	nouvSemaine->semaine = nomSemaine;
 	nouvSemaine->semaineSuivante = ptrSemaine;
@@ -72,6 +81,7 @@ void alloueSemaine(semaines_t * ptrSemaine, char * nomSemaine){
  * ---------------------------------------------------------------------------*/
 semaines_t ** recherche(semaines_t * semaines, char * semaine){
 	semaines_t		** ptrCour = &semaines;
+	/* Contient le pointeur permettant de parcourir les semaines */
 
 	while ((*ptrCour != NULL) && (strcmp((*ptrCour)->semaine,semaine)<0)){
 		*ptrCour = (*ptrCour)->semaineSuivante;
@@ -84,7 +94,7 @@ semaines_t ** recherche(semaines_t * semaines, char * semaine){
  *
  * 		Fonction qui lit un fichier donné en paramètre et créer les semaines
  * correspondantes
- * 
+ *
  * Entrée
  * 		nomFichier : nom du fichier à lire
  *
@@ -92,9 +102,9 @@ semaines_t ** recherche(semaines_t * semaines, char * semaine){
  * 		retourne le pointeur de la liste des semaines crée
  * ------------------------------------------------------------------------*/
 semaines_t * lireFichier(char * nomFichier){
-	semaines_t		* listeSemaine = NULL;
-	FILE					* file = NULL;
-	char						chaine[MAXLISTE] = "";
+	semaines_t		* listeSemaine = NULL; 	/* Contient la liste de semaine résultante*/
+	FILE					* file = NULL;					/* Fichier à lire*/
+	char						chaine[MAXLISTE] = "";/* Contient la chaine d'une action après chaque lecture*/
 
 	file = fopen(nomFichier, "r");
 
@@ -119,8 +129,9 @@ semaines_t * lireFichier(char * nomFichier){
  *		nomFichier : nom du fichier où sauvegarder
  * --------------------------------------------------------------------*/
 void sauvegardeSemaine(semaines_t * listeSemaine, char * nomFichier){
-	FILE							* file = NULL;
-	semaines_t				* ptrCour = listeSemaine;
+	FILE							* file = NULL;						/* Fichier où sauvegarder*/
+	semaines_t				* ptrCour = listeSemaine; /* Pointeur de structure permettant
+	de parcourir la liste des semaines*/
 
 	file = fopen(nomFichier, "r");
 	if (file != NULL){
@@ -135,7 +146,7 @@ void sauvegardeSemaine(semaines_t * listeSemaine, char * nomFichier){
 /*--------------------------------------------------------------------------
  *					createListeJourFromActionSemaine
  *
- * 	Fonction qui créer la liste des jours contenant une action donnée en 
+ * 	Fonction qui créer la liste des jours contenant une action donnée en
  * 	parcourant la liste des semaines
  *
  *	Entrées
@@ -146,8 +157,8 @@ void sauvegardeSemaine(semaines_t * listeSemaine, char * nomFichier){
  *		Chaine de caractère correspondant à la liste des jours résultants
  * -------------------------------------------------------------------------*/
 char * createListeJourFromActionsSemaine(semaines_t * listeSemaine, char * action){
-	semaines_t				* ptrCour = listeSemaine;
-	char							* listeDesJours = "";
+	semaines_t		* ptrCour = listeSemaine; /* Variable de parcours de la liste des semaines */
+	char					* listeDesJours = ""; 		/* Variable de retour contenant la liste des jours */
 
 	while(ptrCour != NULL){
 		strcat(listeDesJours, CreateListeFromActions(ptrCour->actions, action));
@@ -169,11 +180,11 @@ char * createListeJourFromActionsSemaine(semaines_t * listeSemaine, char * actio
  *		chaine : chaine contenant toutes les informations pour supprimer l'élément
  *	-----------------------------------------------------------------------*/
 void supprimeActionInSemaines(semaines_t * listeSemaine, char * chaine){
-	char					semaine[6];
-	char					jourHeure[13];
-	int						cmp=0;
-	semaines_t		* temp;
-	semaines_t		** ptrSemaine;
+	char					semaine[6];			/* chaine correspondant à la partie semaine */
+	char					jourHeure[13];	/* chaine correspondant à la partie jour et heure */
+	int						cmp=0;					/* Variable de parcour de 'chaine' */
+	semaines_t		* temp;					/* Variable temporaire pour effectuer la suppression */
+	semaines_t		** ptrSemaine;	/* Contient la semaine à supprimer de la liste */
 
 	for(cmp=0;cmp<19;cmp++){							/*Separation de la chaine de caractère*/
 		if(cmp < 6){
