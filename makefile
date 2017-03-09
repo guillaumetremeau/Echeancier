@@ -1,7 +1,7 @@
 
 all: echeancier
 
-echeancier: actions.o semaine.o main.o
+echeancier: semaine.o actions.o main.o
 	gcc -o echeancier semaine.o actions.o main.o
 
 actions.o: actions.c

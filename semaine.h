@@ -1,10 +1,10 @@
 #ifndef __SEMAINE_H_GUILLAUME_FARAH__
 #define __SEMAINE_H_GUILLAUME_FARAH__
 
-#include "semaine.h"
 #include "actions.h"
 #include <stdlib.h>
 #include <string.h>
+#include <stdio.h>
 
 
 typedef struct semaines {
