@@ -144,7 +144,7 @@ void sauvegardeSemaine(semaines_t * listeSemaine, char * nomFichier){
 }
 
 /*--------------------------------------------------------------------------
- *					createListeJourFromActionSemaine
+ *					createListeJourFromActionsSemaine
  *
  * 	Fonction qui créer la liste des jours contenant une action donnée en
  * 	parcourant la liste des semaines
