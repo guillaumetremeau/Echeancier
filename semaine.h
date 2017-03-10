@@ -4,7 +4,7 @@
  *
  * Fichier contenant les déclarations relatives à la gestion de la liste des
  * semaines
- * 
+ *
  * #####################################################################*/
 
 
