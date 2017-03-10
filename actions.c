@@ -1,12 +1,10 @@
-#ifndef __ACTIONS_C_GUILLAUME_FARAH__
-#define __ACTIONS_C_GUILLAUME_FARAH__
+/*------------------------------------------------------------------------------*/
+/*	actions.c		fichier contenant la déclaration des 		*/
+/*			différentes fonctions utilisées				*/
+/*------------------------------------------------------------------------------*/
+
 
 #include "actions.h"
-#include "semaine.h"
-#include "main.c"
-#include "string.h"
-
-
 
 
 
@@ -23,11 +21,11 @@
 void CreateAction (actions_t * liste_actions, char * chaine_actions)
 {
   int 			i;
-  int 			jour_heure[3];
+  char 			jour_heure[3];
   char 			nom_action[10];
-  actions_t 	* 	ptrAction;
+  actions_t 	** 	ptrAction;
   
-  for (i=0; i<3; i++)
+  for (i=0; i<13; i++)
   {					/*on divise la case chaine_actions avec le jour et l'heure d'un côté */
     if (i<3)
     {						/*et le nom de l'action de l'autre*/
@@ -43,9 +41,9 @@ void CreateAction (actions_t * liste_actions, char * chaine_actions)
 							/*il faut insérer la nouvelle action*/
   if (* ptrAction != NULL)
   {
-    if (jour_heure != prec->suiv->jour_heure)
+    if (jour_heure != (* ptrAction)->suiv->jour_heure)
     {
-      AlloueAction( ptrAction, jour_heure, nom_action);	/*on alloue un nouvel élément*/
+      AlloueAction( * ptrAction, jour_heure, nom_action);	/*on alloue un nouvel élément*/
     }
     else
     {
@@ -54,7 +52,7 @@ void CreateAction (actions_t * liste_actions, char * chaine_actions)
   }
   else
   {
-    AlloueAction( ptrAction, jour_heure, nom_action);
+    AlloueAction( * ptrAction, jour_heure, nom_action);
   }
   
 }
@@ -67,7 +65,7 @@ void CreateAction (actions_t * liste_actions, char * chaine_actions)
 /*AlloueAction		Allouer de l'espace mémoire à la suite du pointeur 	*/
 /*			Insérer le nouvel élément dans cet espace mémoire	*/
 /*										*/
-/*En entrée:		ptrAction	Adresse de l'élément précédent		*/
+/*En entrée:		ptrAction	Pointeur sur l'adresse de l'élément précédent		*/
 /*			jour		Entier représentant le jour et l'heure	*/
 /*			nom		Chaine de caractères représentant le 	*/
 /*					nom de l'action				*/
@@ -76,16 +74,25 @@ void CreateAction (actions_t * liste_actions, char * chaine_actions)
 /*		un nouvel espace mémoire et une nouvelle action			*/
 /*------------------------------------------------------------------------------*/
 
-void AlloueAction( actions_t * ptrAction, int [] jour, char [] action)
+void AlloueAction( actions_t * ptrAction, char jour [3], char action [10])
 {
+  int 			i;
   actions_t 	*	nouv;
   
-  nouv = (actions_t) * malloc(sizeof(actions_t));
-  nouv->suiv = * ptrAction->suiv;
+  nouv = (actions_t *) malloc(sizeof(actions_t));
+  nouv->suiv = ptrAction->suiv;
   ptrAction = nouv;
   
-  nouv->jour_heure = jour;
-  nouv->nom_action = action;
+  
+  
+  for (i=0; i<3; i++)
+  {					/*on divise la case chaine_actions avec le jour et l'heure d'un côté */					/*et le nom de l'action de l'autre*/
+    nouv->jour_heure[i] = jour[i];
+  }
+  for (i=0; i<10; i++)
+  {					/*on divise la case chaine_actions avec le jour et l'heure d'un côté */					/*et le nom de l'action de l'autre*/
+    nouv->nom_action[i] = action[i];
+  }
 } 
 
 
@@ -104,14 +111,19 @@ void AlloueAction( actions_t * ptrAction, int [] jour, char [] action)
 /*			une valeur existante					*/
 /*------------------------------------------------------------------------------*/
 
-actions_t ** Recherche ( actions_t * tete_liste, int [] val)
+actions_t ** Recherche ( actions_t * tete_liste, char val [3])
 {
+  int 		i;
   actions_t 	** cour = &tete_liste;
   
-  while ( *cour != NULL ) && ( (*cour)->suiv->jour_heure != val) && ( (*cour)->suiv->jour_heure < val)
+  for (i=0; i<3; i++)
   {
-    *cour = (*cour) -> suiv;
+    while ( ( (*cour) != NULL ) && ( (*cour)->suiv->jour_heure[i] != val[i]) && ( (*cour)->suiv->jour_heure[i] < val[i]) )
+    {
+      *cour = (*cour) -> suiv;
+    }
   }
+  
   return cour;
 }
 
@@ -131,11 +143,28 @@ actions_t ** Recherche ( actions_t * tete_liste, int [] val)
 
 void Sauvegarde ( FILE * fichier_sauvegarde, actions_t * liste_actions, char * semaine)
 {
+  int		i;
   actions_t 	* cour = liste_actions;
+  char		 action[19];
   
   while ( cour != NULL)
   {
-    action = concat(semaine, cour->jour_heure, cour->nom_action);
+    for (i=0;i<19;i++)
+    {
+      if (i<6)
+      {
+	action[i]= semaine[i];
+      }
+      else if (i<9)
+      {
+	  action[i]=cour->jour_heure[i-6];
+      }
+      else
+      {
+	action[i]=cour->nom_action[i-9];
+      }
+    }
+    
     fputs (action, fichier_sauvegarde);
     cour = cour->suiv;
   }
@@ -158,7 +187,7 @@ void Sauvegarde ( FILE * fichier_sauvegarde, actions_t * liste_actions, char * s
 /*		tableau de caractères						*/
 /*------------------------------------------------------------------------------*/
 
-char * CreateListeFromActions ( actions_t * liste_actions, char *rechAction)
+char * CreateListeFromActions ( actions_t * liste_actions, char * rechAction)
 {
   char 		* liste_jour;
   int 		  i = 0;
@@ -170,7 +199,7 @@ char * CreateListeFromActions ( actions_t * liste_actions, char *rechAction)
   {
     if (cour->nom_action == rechAction)
     {
-      if ( i = 0 )
+      if ( i == 0 )
       {
 	liste_jour[i] = cour->jour_heure[0];
 	i = i+1;
@@ -205,27 +234,31 @@ char * CreateListeFromActions ( actions_t * liste_actions, char *rechAction)
 /*		contenant plus l'action à supprimer si elle existe		*/
 /*------------------------------------------------------------------------------*/
 
-void SupprimeAction (actions_t * liste_actions, int [] val)
+void SupprimeAction (actions_t * liste_actions, char val [3])
 {
+  int		i;
   actions_t 	* cour = liste_actions;
-  actions_t 	* ptrAction;
+  actions_t 	** ptrAction;
   
   ptrAction = Recherche (cour, val);
   
-  if (* ptrAction != NULL)
+  for (i=0; i<3 ; i++)
   {
-    if (jour_heure == prec->suiv->jour_heure)
+    if ((* ptrAction) != NULL)
     {
-      LibererAction( ptrAction, jour_heure, nom_action);	/*on supprime un élément*/
+      if (val[i] == (*ptrAction)->suiv->jour_heure[i])
+      {
+	LibererAction( * ptrAction);	/*on supprime un élément*/
+      }
+      else
+      {
+	printf("La plage horaire ne contient aucun élément, il n'y a pas d'action à supprimer");    
+      }
     }
     else
     {
-      printf("La plage horaire ne contient aucun élément, il n'y a pas d'action à supprimer");    
+      printf("La plage horaire ne contient aucun élément, il n'y a pas d'action à supprimer");
     }
-  }
-  else
-  {
-    printf("La plage horaire ne contient aucun élément, il n'y a pas d'action à supprimer");
   }
 }
 
@@ -245,7 +278,7 @@ void SupprimeAction (actions_t * liste_actions, int [] val)
 /*		une action en moins						*/
 /*------------------------------------------------------------------------------*/
 
-void LibererAction( actions_t * ptrAction, int [] jour, char [] nom)
+void LibererAction( actions_t * ptrAction)
 {
   actions_t 	* temp;
   
@@ -254,5 +287,3 @@ void LibererAction( actions_t * ptrAction, int [] jour, char [] nom)
   free(temp);
 }
 
-
-#endif

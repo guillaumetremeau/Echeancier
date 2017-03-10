@@ -1,16 +1,23 @@
 /*------------------------------------------------------------------------------*/
 /*	actions.h		fichier contenant la déclaration de la structure*/
-/*			de la liste chainée contenant les actions et la 	*/
+/*			de la liste chainée qui les actions et la 		*/
 /*			déclaration des fonctions utilisées			*/
 /*------------------------------------------------------------------------------*/
 
 #ifndef __ACTIONS_H_GUILLAUME_FARAH__
 #define __ACTIONS_H_GUILLAUME_FARAH__
 
+#include "semaine.h"
+#include "main.c"
+#include <string.h>
+#include <stdio.h>
+
+
+
 typedef struct actions{
-   char[3] jour_heure;
-   char[10] nom_action;
-   struct suiv * actions;
+   char jour_heure [3];
+   char nom_action [10];
+   struct actions * suiv;
 } actions_t;
 
 
@@ -38,7 +45,7 @@ void CreateAction(actions_t *, char *);
 /*		un nouvel espace mémoire et une nouvelle action			*/
 /*------------------------------------------------------------------------------*/
 
-void AlloueAction( actions_t *, int [], char []);
+void AlloueAction( actions_t *, char [3], char [10]);
 
 
 
@@ -51,7 +58,7 @@ void AlloueAction( actions_t *, int [], char []);
 /*			où il faut insérer la nouvelle valeur			*/
 /*------------------------------------------------------------------------------*/
 
-actions_t ** Recherche ( actions_t *, int []);
+actions_t ** Recherche ( actions_t *, char [3]);
 
 
 
@@ -91,7 +98,7 @@ char * CreateListeFromActions ( actions_t *, char *);
 /*En sortie:		la fonction retourne une nouvelle liste chainée ne 	*/
 /*		contenant plus l'action à supprimer si elle existe		*/
 /*------------------------------------------------------------------------------*/
-void SupprimeAction ( actions_t *, int []);
+void SupprimeAction ( actions_t *, char [3]);
 
 
 
@@ -104,7 +111,7 @@ void SupprimeAction ( actions_t *, int []);
 /*		une action en moins						*/
 /*------------------------------------------------------------------------------*/
 
-void LibererAction ( actions_t *, int [], char []);
+void LibererAction ( actions_t *);
 
 
 #endif
