@@ -9,13 +9,12 @@ actions.o: actions.c
 
 semaine.o: semaine.c
 	gcc -o semaine.o -c semaine.c -Wall -Wextra -ansi -pedantic
-  
+
 main.o: main.c semaine.h actions.h
-	gcc -o main.o -c main.c -W -Wall -ansi -pedantic
+	gcc -o main.o -c main.c -Wextra -Wall -ansi -pedantic
 
 clean:
 	rm -rf *.o
 
 mrproper: clean
 	rm -rf echeancier
-				
