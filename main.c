@@ -199,6 +199,7 @@ void testSupprimeActionInSemainesSansActions(){
 int main(){/*Décommenter la fonction à tester */
 
 	/* testFonctionLireFichier();*/
+	/* testCreateSemaine(); */
 	/* testCreateSemaineDoublon(); */
 	/* testCreateSemaineMemeJour(); */
 	/* testSauvegardeSemaine(); */
