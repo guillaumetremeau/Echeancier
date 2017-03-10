@@ -5,6 +5,8 @@
  *
  * #######################################################################*/
 
+#include <stdio.h>
+#include <stdlib.h>
 #include "actions.h"
 #include "semaine.h"
 
@@ -56,7 +58,8 @@ void afficheStructure(semaines_t * semaines){
  * Fonction qui test la lecture d'un fichier dans le cas normale
  * -------------------------------------------------------------------- */
 void testFonctionLireFichier(){
-	semaines_t * structure = lireFichier("liste_agenda"); /* élément récupérant
+	semaines_t * structure = (semaines_t *) malloc(sizeof(semaines_t));
+	structure = lireFichier("liste_agenda"); /* élément récupérant
 	la structure après lecture */
 	afficheStructure(structure);
 }
@@ -68,7 +71,8 @@ void testFonctionLireFichier(){
  * nom de fichier
  * -------------------------------------------------------------------- */
 void testFonctionLireMauvaisNomFichier(){
-	semaines_t * structure = lireFichier("nom_errone"); /* élément récupérant
+	semaines_t * structure = (semaines_t *) malloc(sizeof(semaines_t));
+	structure = lireFichier("nom_errone"); /* élément récupérant
 	la structure après lecture (ici lecture impossible) */
 	afficheStructure(structure);
 }
@@ -80,7 +84,8 @@ void testFonctionLireMauvaisNomFichier(){
  * le cas normale
  * ------------------------------------------------------------------*/
 void testCreateSemaine(){
-	semaines_t * structure; /*Structure de test */
+	semaines_t * structure = (semaines_t *) malloc(sizeof(semaines_t));
+	 /*Structure de test */
 	createSemaine(structure, "201742413Partiels");
 	afficheStructure(structure);
 }
@@ -92,7 +97,8 @@ void testCreateSemaine(){
  * le cas où la plage horaire n'est pas disponible
  * ------------------------------------------------------------------*/
 void testCreateSemaineDoublon(){
-	semaines_t * structure; /*Structure de test */
+	semaines_t * structure = (semaines_t *) malloc(sizeof(semaines_t));
+	 /*Structure de test */
 	createSemaine(structure, "201742413Partiels");
 	createSemaine(structure, "201742413Medecin");
 	afficheStructure(structure);
@@ -105,7 +111,8 @@ void testCreateSemaineDoublon(){
  * le cas où il y a déjà une action la même semaine et le même jour
  * ------------------------------------------------------------------*/
 void testCreateSemaineMemeJour(){
-	semaines_t * structure; /*Structure de test */
+	semaines_t * structure = (semaines_t *) malloc(sizeof(semaines_t));
+	 /*Structure de test */
 	createSemaine(structure, "201742413Partiels");
 	createSemaine(structure, "201742416Medecin");
 	afficheStructure(structure);
@@ -117,7 +124,8 @@ void testCreateSemaineMemeJour(){
  * Fonction qui test la sauvegarde de la structure dans un fichier
  * ---------------------------------------------------------------------*/
 void testSauvegardeSemaine(){
-	semaines_t * structure; /*Structure de test */
+	semaines_t * structure = (semaines_t *) malloc(sizeof(semaines_t));
+	 /*Structure de test */
 	createSemaine(structure, "201742413Partiels");
 	createSemaine(structure, "201732209Voyage Pau");
 	createSemaine(structure, "201742416Restaurant");
@@ -132,7 +140,8 @@ void testSauvegardeSemaine(){
  * un mauvais nom
  * ---------------------------------------------------------------------*/
 void testSauvegardeSemaineMauvaisNomFichier(){
-	semaines_t * structure; /*Structure de test */
+	semaines_t * structure = (semaines_t *) malloc(sizeof(semaines_t));
+	 /*Structure de test */
 	createSemaine(structure, "201742413Partiels");
 	createSemaine(structure, "201732209Voyage Pau");
 	createSemaine(structure, "201742416Restaurant");
@@ -147,7 +156,8 @@ void testSauvegardeSemaineMauvaisNomFichier(){
  * passée en paramètre
  * ---------------------------------------------------------------------*/
 void testCreateListeJourFromActionsSemaine(){
-	semaines_t * structure; /*Structure de test */
+	semaines_t * structure = (semaines_t *) malloc(sizeof(semaines_t));
+	/*Structure de test */
 	createSemaine(structure, "201742413Partiels");
 	createSemaine(structure, "201732209Partiels");
 	createSemaine(structure, "201742416Restaurant");
@@ -162,7 +172,8 @@ void testCreateListeJourFromActionsSemaine(){
  * passée en paramètre dans le cas où il n'y a pas d'action correspondante
  * ---------------------------------------------------------------------*/
 void testCreateListeJourFromActionsSemaineSansJours(){
-	semaines_t * structure; /*Structure de test */
+	semaines_t * structure = (semaines_t *) malloc(sizeof(semaines_t));
+	/*Structure de test */
 	createSemaine(structure, "201742413Partiels");
 	createSemaine(structure, "201732209Partiels");
 	createSemaine(structure, "201742416Restaurant");
@@ -177,7 +188,8 @@ void testCreateListeJourFromActionsSemaineSansJours(){
  * son heure
  * ----------------------------------------------------------------------*/
 void testSupprimeActionInSemaines(){
-	semaines_t * structure; /*Structure de test */
+	semaines_t * structure = (semaines_t *) malloc(sizeof(semaines_t));
+	 /*Structure de test */
 	createSemaine(structure, "201742413Partiels");
 	createSemaine(structure, "201732209Partiels");
 	createSemaine(structure, "201742416Restaurant");
@@ -192,7 +204,8 @@ void testSupprimeActionInSemaines(){
  * son heure dans le cas où il n'y a rien à supprimer
  * ----------------------------------------------------------------------*/
 void testSupprimeActionInSemainesSansActions(){
-	semaines_t * structure; /*Structure de test */
+	semaines_t * structure = (semaines_t *) malloc(sizeof(semaines_t));
+	 /*Structure de test */
 	createSemaine(structure, "201742413Partiels");
 	createSemaine(structure, "201732209Partiels");
 	createSemaine(structure, "201742416Restaurant");

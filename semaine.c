@@ -193,7 +193,7 @@ void supprimeActionInSemaines(semaines_t * listeSemaine, char * chaine){
 	}
 
 	ptrSemaine = recherche(listeSemaine, semaine);
-	SupprimeAction((*ptrSemaine)->actions, (int*) jourHeure);
+	SupprimeAction((*ptrSemaine)->actions, jourHeure);
 	if ((*ptrSemaine)->actions == NULL){
 		temp = (*ptrSemaine)->semaineSuivante;
 		free(*ptrSemaine);

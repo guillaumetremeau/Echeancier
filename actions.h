@@ -7,10 +7,11 @@
 #ifndef __ACTIONS_H_GUILLAUME_FARAH__
 #define __ACTIONS_H_GUILLAUME_FARAH__
 
-#include "semaine.h"
-#include "main.c"
+/*#include "semaine.h"
+#include "main.c"*/
 #include <string.h>
 #include <stdio.h>
+#include <stdlib.h>
 
 
 
@@ -81,7 +82,7 @@ void Sauvegarde ( FILE *, actions_t *, char *);
 /*			l'agenda						*/
 /*										*/
 /*En sortie:		Renvoit, si l'action est présente, les jours qui 	*/
-/*		contiennent une ou plusieurs fois cette action sous forme de 	*/ 
+/*		contiennent une ou plusieurs fois cette action sous forme de 	*/
 /*		tableau de caractères						*/
 /*------------------------------------------------------------------------------*/
 
@@ -115,4 +116,3 @@ void LibererAction ( actions_t *);
 
 
 #endif
-
