@@ -2,7 +2,7 @@
 all: echeancier
 
 echeancier: semaine.o actions.o main.o
-	gcc -o echeancier semaine.o actions.o main.o
+	gcc -o echeancier.out semaine.o actions.o main.o
 
 actions.o: actions.c
 	gcc -o actions.o -c actions.c -Wall -Wextra -ansi -pedantic

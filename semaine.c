@@ -59,7 +59,6 @@ void createSemaine(semaines_t * semaines, char * chaine){
 void alloueSemaine(semaines_t * ptrSemaine, char * nomSemaine){
 	semaines_t		* nouvSemaine = (semaines_t *) malloc(sizeof(semaines_t));
 	/* contient le nouvel élément alloué */
-
 	nouvSemaine->semaine = nomSemaine;
 	nouvSemaine->semaineSuivante = ptrSemaine;
 	ptrSemaine = nouvSemaine;

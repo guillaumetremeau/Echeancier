@@ -11,24 +11,6 @@
 #include "semaine.h"
 
 
-int main(){/*Décommenter la fonction à tester */
-
-	/* testFonctionLireFichier();*/
-	/* testCreateSemaine(); */
-	/* testCreateSemaineDoublon(); */
-	/* testCreateSemaineMemeJour(); */
-	/* testSauvegardeSemaine(); */
-	/* testSauvegardeSemaineMauvaisNomFichier(); */
-	/* testCreateListeJourFromActionsSemaine(); */
-	/* testCreateListeJourFromActionsSemaineSansJours(); */
-	/* testSupprimeActionInSemaines(); */
-	/* testSupprimeActionInSemainesSansActions(); */
-
-	return 0;
-}
-
-
-
 /*---------------------------------------------------------------------
  * 					afficheStructure
  *
@@ -211,4 +193,20 @@ void testSupprimeActionInSemainesSansActions(){
 	createSemaine(structure, "201742416Restaurant");
 	supprimeActionInSemaines(structure, "201932210");
 	afficheStructure(structure);
+}
+
+
+int main(){/*Décommenter la fonction à tester */
+
+	/* testFonctionLireFichier();*/
+	/* testCreateSemaineDoublon(); */
+	/* testCreateSemaineMemeJour(); */
+	/* testSauvegardeSemaine(); */
+	/* testSauvegardeSemaineMauvaisNomFichier(); */
+	/* testCreateListeJourFromActionsSemaine(); */
+	/* testCreateListeJourFromActionsSemaineSansJours(); */
+	/* testSupprimeActionInSemaines(); */
+	/* testSupprimeActionInSemainesSansActions(); */
+
+	return 0;
 }
