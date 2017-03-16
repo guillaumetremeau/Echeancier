@@ -27,22 +27,25 @@ void createSemaine(semaines_t * semaines, char * chaine){
 	char						actions[13];			/* Chaine contenant la partie de l'action*/
 	int							cmp=0;						/* Compteur parcourant 'chaine' */
 	semaines_t			** ptrSemaine;		/* Contient le résultat d'une recherche dans semaines*/
+	semaines_t			* temp;
 
 	for(cmp=0;cmp<19;cmp++){									/*Separation de la chaine de caractère*/
 		if(cmp < 6){
 			semaine[cmp]=chaine[cmp];
 		}else actions[cmp-6] = chaine[cmp];
 	}
-
 	ptrSemaine = recherche(semaines,semaine);
-	if ( ptrSemaine != NULL ){
-		if (strcmp((*ptrSemaine)->semaine, semaine) != 0){
+	if ( (*ptrSemaine != NULL)){
+		if ((*ptrSemaine)->semaine == NULL) {
+			(*ptrSemaine)->semaine = semaine;
+		}else	if (strcmp((*ptrSemaine)->semaine, semaine) != 0){
+			temp = *ptrSemaine;
 			alloueSemaine(*ptrSemaine, semaine);
+			(*ptrSemaine)->semaineSuivante = temp;
 		}
 	}else{
-			alloueSemaine(*ptrSemaine, semaine);
+		alloueSemaine(*ptrSemaine, semaine);
 	}
-
 	CreateAction((*ptrSemaine)->actions, actions);
 }
 
@@ -81,8 +84,7 @@ void alloueSemaine(semaines_t * ptrSemaine, char * nomSemaine){
 semaines_t ** recherche(semaines_t * semaines, char * semaine){
 	semaines_t		** ptrCour = &semaines;
 	/* Contient le pointeur permettant de parcourir les semaines */
-
-	while ((*ptrCour != NULL) && (strcmp((*ptrCour)->semaine,semaine)<0)){
+	while ((*ptrCour != NULL) && ((*ptrCour)->semaine != NULL) && (strcmp((*ptrCour)->semaine,semaine)<0)){
 		*ptrCour = (*ptrCour)->semaineSuivante;
 	}
 	return ptrCour;

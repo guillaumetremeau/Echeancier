@@ -24,7 +24,8 @@ void CreateAction (actions_t * liste_actions, char * chaine_actions)
   char 			jour_heure[3];
   char 			nom_action[10];
   actions_t 	** 	ptrAction;
-  
+  actions_t   * temp;
+
   for (i=0; i<13; i++)
   {					/*on divise la case chaine_actions avec le jour et l'heure d'un côté */
     if (i<3)
@@ -36,25 +37,31 @@ void CreateAction (actions_t * liste_actions, char * chaine_actions)
       nom_action[i-3] = chaine_actions[i];
     }
   }
-  
+
   ptrAction = Recherche( liste_actions, jour_heure);	/*ptrAction représente la case précédente avant laquelle */
 							/*il faut insérer la nouvelle action*/
   if (* ptrAction != NULL)
   {
-    if (jour_heure != (* ptrAction)->suiv->jour_heure)
+    if ((*ptrAction)->jour_heure == NULL)
     {
+      (*ptrAction)->jour_heure = jour_heure;
+      (*ptrAction)->nom_action = nom_action;
+    }else if (jour_heure != (* ptrAction)->suiv->jour_heure)
+    {
+      temp = *ptrAction;
       AlloueAction( * ptrAction, jour_heure, nom_action);	/*on alloue un nouvel élément*/
+      (*ptrAction)->suiv = temp;
     }
     else
     {
-      printf("La plage horaire est deja occupee, vous ne pouvez pas ajouter d'autres elements");    
+      printf("La plage horaire est deja occupee, vous ne pouvez pas ajouter d'autres elements");
     }
   }
   else
   {
     AlloueAction( * ptrAction, jour_heure, nom_action);
   }
-  
+
 }
 
 
@@ -78,13 +85,13 @@ void AlloueAction( actions_t * ptrAction, char jour [3], char action [10])
 {
   int 			i;
   actions_t 	*	nouv;
-  
+
   nouv = (actions_t *) malloc(sizeof(actions_t));
   nouv->suiv = ptrAction->suiv;
   ptrAction = nouv;
-  
-  
-  
+
+
+
   for (i=0; i<3; i++)
   {					/*on divise la case chaine_actions avec le jour et l'heure d'un côté */					/*et le nom de l'action de l'autre*/
     nouv->jour_heure[i] = jour[i];
@@ -93,7 +100,7 @@ void AlloueAction( actions_t * ptrAction, char jour [3], char action [10])
   {					/*on divise la case chaine_actions avec le jour et l'heure d'un côté */					/*et le nom de l'action de l'autre*/
     nouv->nom_action[i] = action[i];
   }
-} 
+}
 
 
 
@@ -115,15 +122,15 @@ actions_t ** Recherche ( actions_t * tete_liste, char val [3])
 {
   int 		i;
   actions_t 	** cour = &tete_liste;
-  
+
   for (i=0; i<3; i++)
   {
-    while ( ( (*cour) != NULL ) && ( (*cour)->suiv->jour_heure[i] != val[i]) && ( (*cour)->suiv->jour_heure[i] < val[i]) )
+    while ( ( (*cour) != NULL ) && ((*cour)->jour_heure != NULL) && ( (*cour)->suiv->jour_heure[i] != val[i]) && ( (*cour)->suiv->jour_heure[i] < val[i]) )
     {
       *cour = (*cour) -> suiv;
     }
   }
-  
+
   return cour;
 }
 
@@ -146,7 +153,7 @@ void Sauvegarde ( FILE * fichier_sauvegarde, actions_t * liste_actions, char * s
   int		i;
   actions_t 	* cour = liste_actions;
   char		 action[19];
-  
+
   while ( cour != NULL)
   {
     for (i=0;i<19;i++)
@@ -164,11 +171,11 @@ void Sauvegarde ( FILE * fichier_sauvegarde, actions_t * liste_actions, char * s
 	action[i]=cour->nom_action[i-9];
       }
     }
-    
+
     fputs (action, fichier_sauvegarde);
     cour = cour->suiv;
   }
-  
+
 }
 
 
@@ -183,7 +190,7 @@ void Sauvegarde ( FILE * fichier_sauvegarde, actions_t * liste_actions, char * s
 /*			rechAction		Chaine de caractères		*/
 /*										*/
 /*En sortie:		Renvoit, si l'action est présente, les jours qui 	*/
-/*		contiennent une ou plusieurs fois cette action sous forme de 	*/ 
+/*		contiennent une ou plusieurs fois cette action sous forme de 	*/
 /*		tableau de caractères						*/
 /*------------------------------------------------------------------------------*/
 
@@ -192,9 +199,9 @@ char * CreateListeFromActions ( actions_t * liste_actions, char * rechAction)
   char 		* liste_jour;
   int 		  i = 0;
   actions_t 	* cour = liste_actions;
-  
+
   liste_jour = "";
-  
+
   while ( cour != NULL)
   {
     if (cour->nom_action == rechAction)
@@ -239,9 +246,9 @@ void SupprimeAction (actions_t * liste_actions, char val [3])
   int		i;
   actions_t 	* cour = liste_actions;
   actions_t 	** ptrAction;
-  
+
   ptrAction = Recherche (cour, val);
-  
+
   for (i=0; i<3 ; i++)
   {
     if ((* ptrAction) != NULL)
@@ -252,7 +259,7 @@ void SupprimeAction (actions_t * liste_actions, char val [3])
       }
       else
       {
-	printf("La plage horaire ne contient aucun élément, il n'y a pas d'action à supprimer");    
+	printf("La plage horaire ne contient aucun élément, il n'y a pas d'action à supprimer");
       }
     }
     else
@@ -281,9 +288,8 @@ void SupprimeAction (actions_t * liste_actions, char val [3])
 void LibererAction( actions_t * ptrAction)
 {
   actions_t 	* temp;
-  
+
   temp = ptrAction->suiv;
   ptrAction->suiv = temp->suiv;
   free(temp);
 }
-

@@ -16,8 +16,8 @@
 
 
 typedef struct actions{
-   char jour_heure [3];
-   char nom_action [10];
+   char * jour_heure;
+   char * nom_action ;
    struct actions * suiv;
 } actions_t;
 
